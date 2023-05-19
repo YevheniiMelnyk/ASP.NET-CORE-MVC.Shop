@@ -16,8 +16,14 @@ namespace Shop.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Category> categoryList = _dbContext.Category;
-            return View(categoryList);
+            IEnumerable<Product> productList = _dbContext.Product;
+
+            foreach(var product in productList)
+            {
+                product.Category = _dbContext.Category.FirstOrDefault(x => x.CategoryId == product.CategoryId);
+            }
+
+            return View(productList);
         }
 
         public IActionResult Add()
