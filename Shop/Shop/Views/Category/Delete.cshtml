@@ -1,12 +1,11 @@
 ﻿@model Shop.Models.Category
 
-<form method="post" asp-action="Add">
+<form method="post" asp-action="Delete">
+    <input asp-for="CategoryId"  />
     <div>
-        <div asp-validation-summary="ModelOnly" class="text-danger">
-
         </div>
         <div class="form-group row">
-            <h2 class="text-info pl-3">Add Category</h2>
+            <h2 class="text-info pl-3">Delete Category</h2>
         </div>
 
         <div class="row">
@@ -16,25 +15,23 @@
                         <label asp-for="CategoryName"></label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="CategoryName" class="form-control" />
-                        <span asp-validation-for="CategoryName" class="text-danger"></span>
+                        <input asp-for="CategoryName" class="form-control" disabled />
                     </div>
-
                 </div>
+
                 <div class="form-group row">
                     <div class="col-4">
                         <label asp-for="DisplayOrder"></label>
                     </div>
                     <div class="col-8">
-                        <input asp-for="DisplayOrder" class="form-control" />
-                        <span asp-validation-for="DisplayOrder" class="text-danger"></span>
+                        <input asp-for="DisplayOrder" class="form-control" disabled />
                     </div>
-
                 </div>
+
                 <div class="form-group row">
                     <div class="col-8 offset-4 row">
                         <div class="col">
-                            <input type="submit" class="btn btn-primary w-100" value="Create" />
+                            <input type="submit" class="btn btn-danger w-100" value="Delete" />
                         </div>
                         <div class="col">
                             <a asp-action="Index" class="btn btn-secondary w-100">Back to categories</a>
@@ -42,6 +39,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-4">
             </div>
         </div>
