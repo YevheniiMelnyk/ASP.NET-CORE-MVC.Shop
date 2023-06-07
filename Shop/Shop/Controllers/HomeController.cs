@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Shop.Data;
 using Shop.Models;
+using Shop.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -13,14 +16,34 @@ namespace Shop.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ApplicationDbContext _dbContext;
+
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
         {
+            _dbContext = dbContext;
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View();
+            HomeVM homeVM = new HomeVM()
+            {
+                Products = _dbContext.Product.Include(u => u.Category),
+                Categories = _dbContext.Category
+            };
+            return View(homeVM);
+        }
+
+        public IActionResult Details(int id)
+        {
+            DetailsVM  detailsVM = new()
+            {
+                Product = _dbContext.Product.Include(u => u.Category)
+                    .Where(u => u.Id == id).FirstOrDefault(),
+                ExistsInCart = false
+            };
+
+            return View(detailsVM);
         }
 
         public IActionResult Privacy()

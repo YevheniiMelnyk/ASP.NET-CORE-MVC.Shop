@@ -38,17 +38,6 @@ namespace Shop.Controllers
         // update / insert
         public IActionResult Upsert(int? id)
         {
-            //For ViewData or ViewBag
-            //IEnumerable<SelectListItem> CategoryDropDown = _dbContext.Category.Select(i => new SelectListItem
-            //{
-            //    Text = i.CategoryName,
-            //    Value = i.CategoryId.ToString()
-            //});
-
-            ////ViewBag.CategoryDropDown = CategoryDropDown;
-            //ViewData["CategoryDropDown"] = CategoryDropDown;
-
-            //Product product = new Product();
             ProductVM productVM = new ProductVM()
             {
                 Product = new Product(),
