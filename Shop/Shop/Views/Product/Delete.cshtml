@@ -1,0 +1,105 @@
+﻿@model Shop.Models.Product
+
+@{
+    var title = "Delete product";
+}
+
+<form method="post">
+
+   <input asp-for="Id" hidden />
+
+    <div>
+        <div class="form-group row">
+            <h2 class="text-info pl-3">@title</h2>
+        </div>
+
+        <div class="row">
+            <div class="col-8">
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Name"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Name" class="form-control" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Price"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="Price" class="form-control" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="ShortDescription"></label>
+                    </div>
+                    <div class="col-8">
+                        <input asp-for="ShortDescription" class="form-control" disabled />
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="Description"></label>
+                    </div>
+                    <div class="col-8">
+                        <textarea asp-for="Description" class="form-control summernote" disabled></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-4">
+                        <label asp-for="CategoryId"></label>
+                    </div>
+                    <div class="col-8">
+                         <input asp-for="Category.CategoryName" class="form-control" disabled/>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-8 offset-4 row">
+                        <div class="col">
+                            <input type="submit" class="btn btn-primary w-100" value="Delete" />
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-secondary w-100"> <i class="fa-solid fa-right-from-bracket"></i>Back to products</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                @if(Model.Id != 0)
+                {
+                    <img src="@WebConstants.ImagePath@Model.Image" width="100%" style="border-radius:5px; border:1px solid #bbb" />
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        const uploadBox = document.getElementById('uploadBox');
+        const customFileLabel = document.querySelector('.custom-file-label');
+        $(document).ready(function() {
+            $('.summernote').summernote({
+                height: 200
+            });
+
+            $('.summernote').summernote('disable');
+        });
+        
+        uploadBox.addEventListener('change', function () {
+            const fileName = Array.from(uploadBox.files).map(file => file.name).join(', ');
+            customFileLabel.textContent = fileName;
+        });
+    </script>
+}
