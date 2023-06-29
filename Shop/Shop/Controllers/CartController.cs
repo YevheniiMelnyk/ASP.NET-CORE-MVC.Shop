@@ -16,8 +16,10 @@ namespace Shop.Controllers
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _context;
+
         [BindProperty]
         public ProductUserVM ProductUserVM { get; set; }
+
         public CartController(ApplicationDbContext context)
         {
             _context = context;
@@ -63,10 +65,25 @@ namespace Shop.Controllers
             ProductUserVM = new ProductUserVM()
             {
                 ApplicationUser = _context.AppUser.FirstOrDefault(u => u.Id == claim.Value),
-                ProductList = prodList
+                ProductList = prodList.ToList()
             };
 
             return View(ProductUserVM);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Summary")]
+        public IActionResult SummaryPost(ProductUserVM productUserVM)
+        {
+            
+
+            return RedirectToAction(nameof(InquiryConfirmation));
+        }
+
+        public IActionResult InquiryConfirmation(ProductUserVM productUserVM)
+        {
+            HttpContext.Session.Clear();
+            return View();
         }
 
         public IActionResult Remove(int id)
