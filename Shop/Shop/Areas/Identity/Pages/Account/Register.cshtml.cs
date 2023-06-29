@@ -71,7 +71,7 @@ namespace Shop.Areas.Identity.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            if(await _roleManager.RoleExistsAsync(WebConstants.AdminRole))
+            if(!await _roleManager.RoleExistsAsync(WebConstants.AdminRole))
             {
                 await _roleManager.CreateAsync(new IdentityRole(WebConstants.AdminRole));
                 await _roleManager.CreateAsync(new IdentityRole(WebConstants.CustomerRole));
@@ -90,6 +90,15 @@ namespace Shop.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    if(User.IsInRole(WebConstants.AdminRole))
+                    {
+                        await _userManager.AddToRoleAsync(user, WebConstants.AdminRole);
+                    }
+                    else
+                    {
+                        await _userManager.AddToRoleAsync(user, WebConstants.CustomerRole);
+                    }
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
